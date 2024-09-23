@@ -1,21 +1,20 @@
-#Use the official Python Image from the Docker Hub
-from python:3.9-slim
+# Use the official Python image from the Docker Hub
+FROM python:3.9-slim
 
-#Set the working Directory.
+# Set the working directory
 WORKDIR /app
 
-# Install necessary packages listed in requirements.txt, if present
+# Copy the requirements.txt first to install dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
 
-#Copy the current directory contents into the container at ./app
+# Install necessary packages listed in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application files
 COPY . /app
 
-#Install ant needed packages specified in the requirements.txt
-RUN pip install flask
-
 # Make port 5000 available to the world outside the container
-Expose 5000
+EXPOSE 5000
 
 # Run app.py when the container launches
-CMD ["python","app.py"]
+CMD ["python", "app.py"]
